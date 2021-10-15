@@ -17,36 +17,36 @@ module.exports = class BinarySearchTree {
   }
 
   add(data) {
-    this.roote = addWithin( this.roote, value);
-    function addWithin (node, value){
+    this.roote = addWithin( this.roote, data);
+    function addWithin (node, data){
       if (!node) {
-        return new Node (value);
+        return new Node (data);
       }
 
-      if (node.value === value){
+      if (node.data === data){
         return node
       }
-      if (value < node.value){
-        node.left = addWithin(node.left, value);
+      if (data < node.data){
+        node.left = addWithin(node.left, data);
       } else {
-        node.right = addWithin (node.right, value);
+        node.right = addWithin (node.right, data);
       }
       return node;
       }
     }
 
   has(data) {
-    return searchWithin(this.roote, value);
+    return searchWithin(this.roote, data);
 
-    function searchWithin (node, value){
+    function searchWithin (node, data){
       if (!node){
         return false;
       }
-      if (node.value === value )
+      if (node.data === data )
       return true;
-      return value < node.value ?
-      searchWithin(node.left, value):
-      searchWithin(node.right, value);
+      return data < node.data ?
+      searchWithin(node.left, data):
+      searchWithin(node.right, data);
 
     }
   }
@@ -56,9 +56,46 @@ module.exports = class BinarySearchTree {
     // remove line with error and write your code here
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  remove(data) {
+    this.roote = removeNode (this.roote, data);
+
+    function removeNode (node, data) {
+      if (!node) {
+        return null;
+      }
+      if (data < node.data) {
+        node.left = removeNode(node.left, data);
+        return node;
+
+      } else if (node.data < data) {
+        node.right = removeNode(node.right, data);
+        return node;
+
+      } else {
+        if (!node.left && !node.right){
+          return null;
+        }
+      }
+
+      if(!node.left){
+        node = node.right;
+        return node;
+      }
+      if(!node.right){
+        node = node.left;
+        return node;
+      }
+      let minFromRight = node.right;
+      while (minFromRight.left) {
+        minFromRight = minFromRight.left;
+      }
+      node.data = minFromRight.data;
+
+      node.right = removeNode (node.right, minFromRight.data);
+
+      return node;
+
+    }
   }
 
   min() {
