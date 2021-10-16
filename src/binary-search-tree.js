@@ -47,7 +47,6 @@ module.exports = class BinarySearchTree {
       return data < node.data ?
       searchWithin(node.left, data):
       searchWithin(node.right, data);
-
     }
   }
 
